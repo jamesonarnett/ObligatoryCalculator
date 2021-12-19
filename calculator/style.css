@@ -113,3 +113,7 @@ body {
 .number {
   background-color: #fff;
 }
+
+[data-state="selected"] {
+  background-color: grey;
+}
