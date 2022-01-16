@@ -37,6 +37,9 @@ keys.addEventListener("click", (event) => {
     screen.textContent = 0;
   }
 
+  if (document.getElementById("decimal")) {
+    console.log("fucl");
+  }
   if (type == "equal") {
     const firstNumber = parseInt(calculator.dataset.firstNumber);
     const secondNumber = parseInt(screenValue);
