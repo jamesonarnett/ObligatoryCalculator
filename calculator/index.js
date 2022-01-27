@@ -37,12 +37,17 @@ keys.addEventListener("click", (event) => {
     screen.textContent = 0;
   }
 
-  if (document.getElementById("decimal")) {
-    console.log("fucl");
+  if (type == "decimal") {
+    if (screenValue.includes(".")) {
+      return;
+    } else {
+      screen.textContent = screenValue + ".";
+    }
   }
+
   if (type == "equal") {
-    const firstNumber = parseInt(calculator.dataset.firstNumber);
-    const secondNumber = parseInt(screenValue);
+    const firstNumber = parseFloat(calculator.dataset.firstNumber);
+    const secondNumber = parseFloat(screenValue);
     const operator = calculator.dataset.operator;
     screen.textContent = calculate(firstNumber, operator, secondNumber);
   }
