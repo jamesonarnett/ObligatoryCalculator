@@ -1,6 +1,7 @@
 const calculator = document.querySelector(".calculator");
 const keys = calculator.querySelector(".cal-body");
 const screen = calculator.querySelector(".cal-screen");
+let completeOp = [];
 
 keys.addEventListener("click", (event) => {
   if (!event.target.closest("button")) return;
@@ -12,6 +13,8 @@ keys.addEventListener("click", (event) => {
   const { previousKeyType } = calculator.dataset;
 
   if (type === "number") {
+    completeOp.push(keyValue);
+
     if (screenValue == 0) {
       screen.textContent = keyValue;
     } else if (previousKeyType == "operator") {
@@ -22,6 +25,8 @@ keys.addEventListener("click", (event) => {
   }
 
   if (type == "operator") {
+    completeOp.push(keyValue.trim());
+
     const operatorKeys = keys.querySelectorAll('[data-type="operator"]');
     operatorKeys.forEach((el) => (el.dataset.state = ""));
     key.dataset.state = "selected";
@@ -35,6 +40,7 @@ keys.addEventListener("click", (event) => {
     const operatorKeys = keys.querySelectorAll('[data-type="operator"]');
     operatorKeys.forEach((el) => (el.dataset.state = ""));
     screen.textContent = 0;
+    completeOp = [];
   }
 
   if (type == "decimal") {
@@ -50,16 +56,40 @@ keys.addEventListener("click", (event) => {
     const secondNumber = parseFloat(screenValue);
     const operator = calculator.dataset.operator;
     screen.textContent = calculate(firstNumber, operator, secondNumber);
+    console.log(completeOp);
   }
+
+  let action = calculator.dataset.operator;
+  console.log(action);
+
+  if (
+    action == "plus" ||
+    action == "minus" ||
+    action == "times" ||
+    action == "divide"
+  ) {
+    const firstNumber = parseFloat(calculator.dataset.firstNumber);
+    const secondNumber = parseFloat(screenValue);
+    const operator = calculator.dataset.operator;
+
+    if (firstNumber && operator) {
+      screen.textContent = calculate(firstNumber, operator, secondNumber);
+    }
+  }
+
   calculator.dataset.previousKeyType = type;
 });
 
 function calculate(firstNumber, operator, secondNumber) {
   let result = "";
-  if (operator == "plus") result = firstNumber + secondNumber;
-  if (operator == "minus") result = firstNumber - secondNumber;
-  if (operator == "times") result = firstNumber * secondNumber;
-  if (operator == "divide") result = firstNumber / secondNumber;
+  if (operator == "plus")
+    result = parseFloat(firstNumber) + parseFloat(secondNumber);
+  if (operator == "minus")
+    result = parseFloat(firstNumber) - parseFloat(secondNumber);
+  if (operator == "times")
+    result = parseFloat(firstNumber) * parseFloat(secondNumber);
+  if (operator == "divide")
+    result = parseFloat(firstNumber) / parseFloat(secondNumber);
   return result;
 }
 
